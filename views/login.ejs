@@ -1,0 +1,18 @@
+<h1>Admin Login</h1>
+
+<div style=" width: 100%; justify-content: center; align-items: center; ">
+    <div style="">
+        <% if (locals.error) { %>
+            <div style="color: red;" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <form style="margin: auto;" action="/login" method="POST">
+            <label for="email">Email</label>    <br>
+            <input type="email" required  id="email" name="email"> <br> <br>
+            <label for="password">Password</label> <br>
+            <input type="password" required  id="password" name="password"> <br> <br>
+            <input type="submit">
+        </form>
+    </div>
+</div>

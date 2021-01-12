@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="\stylesheets\signup.css" type="text/css" />
+</head>
+<body>
+    <div class="header-container">
+        <div class="logo">
+            <b>Header</b>
+        </div>
+    </div>
+    <div class="container">
+    <div class="row" >
+        <div class="col-md-6 col-xs-12 " >
+            <br>
+            <h1>Welcome</h1>
+            <h3>Sign-up to create a personalized link</h3>
+            <img src="/assets/sign-in.png" class="image-signup">
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <br>
+            <br>
+            <% if (locals.error2) { %>
+                <div style="color: red;" role="alert">
+                    <%= error2 %>
+                </div>
+            <% } %>
+            <% if (locals.msg) { %>
+                <div style="color: green;" role="alert">
+                    <%= msg %>
+                </div>
+            <% } %>
+            <form class="signup-form" action="/user/signup" method="POST">
+                <input type="string" name="name" id="name" placeholder="Name">
+                <br>
+                <br>
+                <input type="email" name="email" id="email" placeholder="Email">
+                <br>
+                <br>
+                <input type="password" name="password" id="password" placeholder="Password">
+                <br>
+                <br>
+                <input type="string" name="conf-password" id="conf-password" placeholder="Conform Password">
+                <br>
+                <br>
+                <input type="submit">
+              </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
