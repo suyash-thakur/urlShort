@@ -5,7 +5,8 @@ const linkSchema = mongoose.Schema({
     originalURL: { type: String, required: true },
     clicks: { type: String, default: 0 },
     dateCreated: { type: Date, required: true, default: Date.now },
-    expireAt: { type: Date, default: undefined }
+    expireAt: { type: Date, default: undefined },
+    author: {type: mongoose.Schema.Types.ObjectID, ref: 'User', required: true}
     
 });
 linkSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 });

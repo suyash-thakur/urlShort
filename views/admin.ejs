@@ -1,0 +1,23 @@
+<h1>Admin Page</h1>
+<% if (locals.error) { %>
+    <div style="color: red;" role="alert">
+        <%= error %>
+    </div>
+<% } %>
+<% if (locals.msg) { %>
+    <div style="color: green;" role="alert">
+        <%= msg %>
+    </div>
+<% } %>
+<div>
+    <%= name %> <br>
+    <%= email %> 
+</div>
+
+<h3>Create Link</h3>
+<form method="POST" action="/createLink">
+    <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" >
+    <input type="string" placeholder="Long URL" name="originalURL" id="originalURL">
+    <input type="datetime-local" name="expire", id="expire"> 
+    <input type="submit">
+</form>

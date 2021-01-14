@@ -1,6 +1,7 @@
 const express = require("express"),
     router = express.Router();
 const User = require('../models/User');
+const Link = require('../models/Link');
 const bcrypt = require('bcrypt');
 const checkAuth = require('./auth.js');
 
@@ -8,16 +9,11 @@ router.get('/home/user', (req, res) => {
     res.send('working');
 });
 
-router.get('/:data', (req, res) => {
-    let data = req.params.data;
-    res.send(data);
-});
-
 router.get('/user/signup', (req, res) => {
     res.render('signup');
 });
 router.get('/user/dashboard', checkAuth, (req, res) => {
-    res.render('admin');
+  res.render('admin', {name: req.cookies.name, email: req.cookies.email });
 });
 router.get('/user/login', (req, res) => {
     res.render('login');
@@ -56,8 +52,10 @@ router.post('/login', (req, res, next) => {
                 if (!result) {
                     res.render('login', { error: "Incorrect email and/or Password!" });
                 } else { 
+                    res.cookie("name", fetchedUser.name);
                     res.cookie("email", fetchedUser.email);
                     res.cookie("password", fetchedUser.password);
+                    res.cookie("id", fetchedUser._id);
                     res.redirect('/user/dashboard');
                 }
             }
@@ -67,5 +65,32 @@ router.post('/login', (req, res, next) => {
     };
 });
 
+router.post('/createLink', checkAuth, (req, res, next) => {
+    let Expire;
+    let userID = req.cookies.id;
+    if (req.body.expire) {
+        Expire = req.body.expire;
+    } else {
+        Expire = undefined;
+    }
+    const link = new Link({
+        shortURL: req.body.shortURL,
+        originalURL: req.body.originalURL,
+        expireAt: Expire,
+        author: userID
+    });
+    link.save().then(link => {
+        res.redirect('/user/dashboard');
+    }).catch(err => res.message({ err }));
+});
+
+router.get('/:data', (req, res) => {
+    let data = req.params.data;
+    Link.findOne({ shortURL: data }).then(link => {
+        if (link) {
+            res.redirect(link.originalURL);
+        }
+    })
+});
 
 module.exports = router;
