@@ -17,7 +17,50 @@
 <h3>Create Link</h3>
 <form method="POST" action="/createLink">
     <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" >
-    <input type="string" placeholder="Long URL" name="originalURL" id="originalURL">
+    <input type="string" placeholder="Original URL" name="originalURL" id="originalURL">
     <input type="datetime-local" name="expire", id="expire"> 
     <input type="submit">
 </form>
+
+<h3>Links</h3>
+<% if (locals.link) { %>
+<% for(var i=0; i < link.length; i++) { %>
+    <div>
+        <div id="feild">
+            <%= link[i].shortURL %>  <br>
+            <%= link[i].originalURL %>  <br>
+            <%= link[i].clicks %> <br>
+            <%= link[i].dateCreated %> <br>
+        </div>
+        <br>
+        <br>
+        <div id="edit" style="display: none;">
+            <form method="POST" action="/updateLink">
+                <input type="string" value=" <%= link[i]._id %> " style="display: none;">
+                <input type="string" value=" <%= link[i].shortURL %> " name="shortURL" placeholder="Short URL">
+                <input type="string" value="<%= link[i].originalURL %>" name="originalURL" placeholder="Original URL">
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+
+    <br>
+    <button onclick="toggleEditForm()">Edit</button>
+    <hr>
+    <% } %>
+    <% } %>
+    <script>
+        isEdit = false;
+
+        function toggleEditForm() {
+            if (!isEdit) {
+                document.getElementById('feild').style.display = 'none';
+                document.getElementById('edit').style.display = 'inherit';
+
+            } else {
+                document.getElementById('feild').style.display = 'inherit';
+                document.getElementById('edit').style.display = 'none';
+
+            }
+        }
+    </script>

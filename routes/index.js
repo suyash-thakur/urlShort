@@ -13,7 +13,9 @@ router.get('/user/signup', (req, res) => {
     res.render('signup');
 });
 router.get('/user/dashboard', checkAuth, (req, res) => {
-  res.render('admin', {name: req.cookies.name, email: req.cookies.email });
+    Link.find({ author: req.cookies.id }).then(link => {
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link });
+    });
 });
 router.get('/user/login', (req, res) => {
     res.render('login');
