@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Link = require('../models/Link');
 const bcrypt = require('bcrypt');
 const checkAuth = require('./auth.js');
+const   mongoose = require("mongoose");
+
 
 router.get('/home/user', (req, res) => {
     res.send('working');
@@ -95,4 +97,21 @@ router.get('/:data', (req, res) => {
     })
 });
 
+router.post('/updateLink', checkAuth, (req, res) => {
+    let Expire;
+    let linkID = mongoose.Schema.ObjectId(req.body.id);
+    if (req.body.expire) {
+        Expire = req.body.expire;
+    } else {
+        Expire = undefined;
+    }
+
+    Link.findOneAndUpdate({ _id: req.body.id }, {
+        shortURL: req.body.shortURL,
+        originalURL: req.body.originalURL,
+        expireAt: Expire
+    }).then(link => {
+        res.redirect('/user/dashboard');
+    });
+});
 module.exports = router;

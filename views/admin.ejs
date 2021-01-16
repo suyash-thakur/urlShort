@@ -36,9 +36,10 @@
         <br>
         <div id="edit" style="display: none;">
             <form method="POST" action="/updateLink">
-                <input type="string" value=" <%= link[i]._id %> " style="display: none;">
-                <input type="string" value=" <%= link[i].shortURL %> " name="shortURL" placeholder="Short URL">
+                <input type="string" value="<%= link[i]._id %>" style="display: none;" name="id">
+                <input type="string" value="<%= link[i].shortURL %>" name="shortURL" placeholder="Short URL">
                 <input type="string" value="<%= link[i].originalURL %>" name="originalURL" placeholder="Original URL">
+                <input type="datetime-local" name="expire", id="expire"> 
                 <input type="submit" value="Save">
             </form>
         </div>
