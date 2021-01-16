@@ -47,6 +47,12 @@
 
     <br>
     <button onclick="toggleEditForm()">Edit</button>
+    <br>
+    <br>
+    <form method="POST" action="/deleteLink">
+        <input type="string" value="<%= link[i]._id %>" style="display: none;" name="linkid">
+        <input type="submit" value="Delete">
+    </form>
     <hr>
     <% } %>
     <% } %>
@@ -63,5 +69,8 @@
                 document.getElementById('edit').style.display = 'none';
 
             }
+        }
+        function deleteLink() {
+
         }
     </script>

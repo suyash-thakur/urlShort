@@ -114,4 +114,11 @@ router.post('/updateLink', checkAuth, (req, res) => {
         res.redirect('/user/dashboard');
     });
 });
+
+router.post('/deleteLink', (req, res) => {
+    id = req.body.linkid;
+    Link.findByIdAndDelete(id).then(link => { 
+        res.redirect('/user/dashboard');
+    })
+});
 module.exports = router;
