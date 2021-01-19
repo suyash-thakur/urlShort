@@ -1,4 +1,42 @@
-<h1>Admin Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="\stylesheets\bootstrap.min.css" type="text/css" />
+
+    <link rel="stylesheet" href="\stylesheets\styles.css" type="text/css" />
+    <link rel="stylesheet" href="\stylesheets\_variables.scss" type="text/css" />
+    <link rel="stylesheet" href="\stylesheets\_bootswatch.scss" type="text/css" />
+
+
+    <title>Link</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Logo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="/user/dashboard">My Links
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/login">Sign-Out</a>
+            </li>
+          
+          </ul>
+        </div>
+      </nav>
 <% if (locals.error) { %>
     <div style="color: red;" role="alert">
         <%= error %>
@@ -15,14 +53,43 @@
 </div>
 
 <h3>Create Link</h3>
+
+<div  class="formCreate">
+    <div style="background-color: #fff;  padding-left: 20px;  border: 2px solid #eb6864;">
 <form method="POST" action="/createLink">
-    <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" >
-    <input type="string" placeholder="Original URL" name="originalURL" id="originalURL">
-    <input type="datetime-local" name="expire", id="expire"> 
-    <input type="submit">
+    <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
+    <input type="string" placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
+    <input type="datetime-local" name="expire", id="expire" placeholder="Expiration Date"  class="inputURL" style="  border-right: none;"> 
+    <input type="submit" class="btn  inputURLSubmit" value="Create">
 </form>
+</div>
+</div>
 
 <h3>Links</h3>
+<table class="table table-hover" style="overflow-x: auto;">
+    <thead>
+      <tr>
+        <th scope="col">Short Link</th>
+        <th scope="col">URL</th>
+        <th scope="col">Clicks</th>
+        <th scope="col">Date Created</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% if (locals.link) { %>
+            <% for(var i=0; i < link.length; i++) { %>
+      <tr class="table-active">
+        <th scope="row"><%= link[i].shortURL %> </th>
+        <td><%= link[i].originalURL %></td>
+        <td><%= link[i].clicks %> </td>
+        <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
+        <td><%= moment(link[i].dateCreated).format("DD MM YYYY hh:mm:ss") %> </td>
+        <td> <button onclick="toggleEditForm()" class="btn btn-danger">Edit</button></td>
+      </tr>
+      <% } %>
+      <% } %>
+      </tbody>
+      </table>
 <% if (locals.link) { %>
 <% for(var i=0; i < link.length; i++) { %>
     <div>
@@ -70,7 +137,7 @@
 
             }
         }
-        function deleteLink() {
-
-        }
     </script>
+  </body>
+</html>
+

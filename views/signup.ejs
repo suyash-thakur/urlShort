@@ -1,57 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign-Up</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="\stylesheets\signup.css" type="text/css" />
-</head>
-<body>
-    <div class="header-container">
-        <div class="logo">
-            <b>Header</b>
-        </div>
-    </div>
-    <div class="container">
-    <div class="row" >
-        <div class="col-md-6 col-xs-12 " >
-            <br>
-            <h1>Welcome</h1>
-            <h3>Sign-up to create a personalized link</h3>
-            <img src="/assets/sign-in.png" class="image-signup">
-        </div>
-        <div class="col-md-6 col-xs-12">
-            <br>
-            <br>
-            <% if (locals.error2) { %>
-                <div style="color: red;" role="alert">
-                    <%= error2 %>
-                </div>
-            <% } %>
-            <% if (locals.msg) { %>
-                <div style="color: green;" role="alert">
-                    <%= msg %>
-                </div>
-            <% } %>
-            <form class="signup-form" action="/user/signup" method="POST">
-                <input type="string" name="name" id="name" placeholder="Name">
-                <br>
-                <br>
-                <input type="email" name="email" id="email" placeholder="Email">
-                <br>
-                <br>
-                <input type="password" name="password" id="password" placeholder="Password">
-                <br>
-                <br>
-                <input type="string" name="conf-password" id="conf-password" placeholder="Conform Password">
-                <br>
-                <br>
-                <input type="submit">
-              </form>
-        </div>
+<%- include("./partials/header.ejs") %>
+<div class="container">
+    <div style=" display: flex; height: 80vh; align-items: center;  margin: auto;  width: fit-content;">
+    <div style="">
+
+        <h2>Sign-Up</h2>
+        <br>
+        <% if (locals.error2) { %>
+            <div class="alert alert-dismissible alert-primary">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong><%= error2 %></strong> 
+              </div>
+
+        <% } %>
+        <% if (locals.msg) { %>
+            <div style="color: green;" role="alert">
+                <%= msg %>
+            </div>
+        <% } %>
+        <form action="/user/signup" method="POST">
+            <div class="form-group">
+                <label for="name">User Name</label>
+                <input type="string" name="name" id="name" placeholder="Name" class="form-control"  required>
+              </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" type="email" required  id="email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control"  required  id="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="conf-password">Conform Password</label>
+                <input type="password" class="form-control"  required  name="confpassword" id="conf-password" placeholder="Conform Password">
+              </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
     </div>
 </div>
-</body>
-</html>
+</div>
+<br>
+<%- include("./partials/footer.ejs") %>
+
+
+
+

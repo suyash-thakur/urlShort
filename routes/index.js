@@ -5,7 +5,7 @@ const Link = require('../models/Link');
 const bcrypt = require('bcrypt');
 const checkAuth = require('./auth.js');
 const   mongoose = require("mongoose");
-
+const moment = require('moment');
 
 router.get('/home/user', (req, res) => {
     res.send('working');
@@ -16,30 +16,37 @@ router.get('/user/signup', (req, res) => {
 });
 router.get('/user/dashboard', checkAuth, (req, res) => {
     Link.find({ author: req.cookies.id }).then(link => {
-        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link });
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment });
     });
 });
 router.get('/user/login', (req, res) => {
     res.render('login');
 });
 router.post('/user/signup', (req, res, next) => { 
-    bcrypt.hash(req.body.password, 10).then(hash => {
-        const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            password: hash
-        });
-        user.save().then(
-            result => {
-                if (result) {
-                    res.render('signup', { msg: 'User created. Login to continue' });
+    if (req.body.password !== req.body.confpassword) {
+        res.render('signup', { error2: 'Passwords are not same' });
+    } else {
+        bcrypt.hash(req.body.password, 10).then(hash => {
+            const user = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: hash
+            });
+            user.save().then(
+                result => {
+                    if (result) {
+                        res.render('signup', { msg: 'User created. Login to continue' });
+                    }
                 }
-            }
-        ).catch(err => {
-            console.log(err);
-            res.render('signup', { error2: 'Error Signing Up' });
+            ).catch(err => {
+                if (err.code && err.code == 11000) {
+                    res.render('signup', { error2: 'Account with this email-Id already found' });
+                } else { 
+                    res.render('signup', { error2: 'Error Signing Up' });
+                }
+            });
         });
-    });
+    }
 });
 
 router.post('/login', (req, res, next) => {
@@ -88,6 +95,9 @@ router.post('/createLink', checkAuth, (req, res, next) => {
     }).catch(err => res.message({ err }));
 });
 
+router.get('/', (req, res) => {
+    res.render('login');
+});
 router.get('/:data', (req, res) => {
     let data = req.params.data;
     Link.findOne({ shortURL: data }).then(link => {

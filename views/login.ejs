@@ -1,18 +1,30 @@
-<h1>Admin Login</h1>
+<%- include("./partials/header.ejs") %>
+<div class="container">
 
-<div style=" width: 100%; justify-content: center; align-items: center; ">
+    <div style=" display: flex; height: 80vh; align-items: center; position: relative; margin: auto;  width: fit-content;">
     <div style="">
+        <h2>Login</h2>
+        <br>
         <% if (locals.error) { %>
             <div style="color: red;" role="alert">
                 <%= error %>
             </div>
         <% } %>
-        <form style="margin: auto;" action="/login" method="POST">
-            <label for="email">Email</label>    <br>
-            <input type="email" required  id="email" name="email"> <br> <br>
-            <label for="password">Password</label> <br>
-            <input type="password" required  id="password" name="password"> <br> <br>
-            <input type="submit">
-        </form>
+        <form action="/login" method="POST">
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" type="email" required  id="email" name="email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control"  required  id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
     </div>
 </div>
+</div>
+<br>
+<%- include("./partials/footer.ejs") %>
+
