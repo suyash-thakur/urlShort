@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 const linkSchema = mongoose.Schema({
     shortURL: { type: String, required: true, unique: true },
     originalURL: { type: String, required: true },
-    clicks: { type: String, default: 0 },
+    clicks: { type: Number, default: 0 },
     dateCreated: { type: Date, required: true, default: Date.now },
     expireAt: { type: Date, default: undefined },
     author: {type: mongoose.Schema.Types.ObjectID, ref: 'User', required: true}

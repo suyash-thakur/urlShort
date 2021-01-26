@@ -14,9 +14,30 @@ router.get('/home/user', (req, res) => {
 router.get('/user/signup', (req, res) => {
     res.render('signup');
 });
-router.get('/user/dashboard', checkAuth, (req, res) => {
+router.get('/user/dashboard', checkAuth, (req, res) => { 
+    var errorString;
+    var successString;
+    if (req.query.error == 'ERRDP01') { 
+        errorString = "Short URL name already taken";
+    } else if (req.query.error == 'ERRDP02') {
+        errorString = "Error Creating link";
+
+     } else {
+        errorString = undefined;
+    }
+    if (req.query.success == 'LNKCR01') { 
+        successString = "Link Created";
+    } else if (req.query.success == 'LNKUP01') {
+        successString = "Link Updated";
+
+     } else if (req.query.success == 'LNKDR01') {
+        successString = "Link Deleted";
+
+     } else {
+        successString = undefined;
+    }
     Link.find({ author: req.cookies.id }).then(link => {
-        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment });
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment, error: errorString, msg:successString });
     });
 });
 router.get('/user/login', (req, res) => {
@@ -91,8 +112,16 @@ router.post('/createLink', checkAuth, (req, res, next) => {
         author: userID
     });
     link.save().then(link => {
-        res.redirect('/user/dashboard');
-    }).catch(err => res.message({ err }));
+        res.redirect('/user/dashboard/?success=LNKCR01');
+    }).catch(err => { 
+        if (err.code && err.code == 11000) {
+            res.redirect('/user/dashboard/?error=ERRDP01');
+
+        } else { 
+            res.redirect('/user/dashboard/?error=ERRDP02');
+
+        }
+    });
 });
 
 router.get('/', (req, res) => {
@@ -100,7 +129,8 @@ router.get('/', (req, res) => {
 });
 router.get('/:data', (req, res) => {
     let data = req.params.data;
-    Link.findOne({ shortURL: data }).then(link => {
+    Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
+    {new: true}, ).then(link => {
         if (link) {
             res.redirect(link.originalURL);
         }
@@ -121,14 +151,14 @@ router.post('/updateLink', checkAuth, (req, res) => {
         originalURL: req.body.originalURL,
         expireAt: Expire
     }).then(link => {
-        res.redirect('/user/dashboard');
+        res.redirect('/user/dashboard?success=LNKUP01');
     });
 });
 
 router.post('/deleteLink', (req, res) => {
     id = req.body.linkid;
     Link.findByIdAndDelete(id).then(link => { 
-        res.redirect('/user/dashboard');
+        res.redirect('/user/dashboard?success=LNKDR01');
     })
 });
 module.exports = router;

@@ -7,7 +7,7 @@ body {
 }
 .formCreate {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 .inputURL {
@@ -53,4 +53,21 @@ input {
   border: none;
   border-bottom: 2px solid #000000;
   background: none;
+}
+.wrapper {
+  overflow-x: auto;
+}
+.wrapper table {
+  white-space: nowrap;
+}
+.formCreateMobile {
+  display: none;
+}
+@media only screen and (max-width: 1000px) {
+  .formCreate {
+    display: none;
+  }
+  .formCreateMobile {
+    display: inherit;
+  }
 }

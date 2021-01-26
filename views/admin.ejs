@@ -37,23 +37,28 @@
           </ul>
         </div>
       </nav>
+      <div class="container" style="min-height: 85vh;">
 <% if (locals.error) { %>
-    <div style="color: red;" role="alert">
-        <%= error %>
+    <div class="alert alert-dismissible alert-primary">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong><%= error %></strong> 
     </div>
 <% } %>
 <% if (locals.msg) { %>
-    <div style="color: green;" role="alert">
-        <%= msg %>
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong><%= msg %></strong> 
     </div>
 <% } %>
+<br>
 <div>
     <%= name %> <br>
     <%= email %> 
 </div>
-
+<br>
+<hr>
 <h3>Create Link</h3>
-
+<br>
 <div  class="formCreate">
     <div style="background-color: #fff;  padding-left: 20px;  border: 2px solid #eb6864;">
 <form method="POST" action="/createLink">
@@ -62,10 +67,31 @@
     <input type="datetime-local" name="expire", id="expire" placeholder="Expiration Date"  class="inputURL" style="  border-right: none;"> 
     <input type="submit" class="btn  inputURLSubmit" value="Create">
 </form>
-</div>
-</div>
 
+</div>
+</div>
+<br>
+<br>
+<div class="card formCreateMobile">
+  <div class="card-body">
+<form>
+  <div class="mb-3">
+    <input type="string" class="form-control" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
+  </div>
+  <div class="mb-3">
+    <input type="string" class="form-control"  placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
+
+  </div>
+  <div class="mb-3">
+    <input type="datetime-local" class="form-control" name="expire", id="expire" placeholder="Expiration Date"  class="inputURL" style="  border-right: none;"> 
+  </div>
+  <input type="submit" class="btn  btn-primary" value="Submit">
+
+</form>
+</div>
+</div>
 <h3>Links</h3>
+<div class="wrapper">
 <table class="table table-hover" style="overflow-x: auto;">
     <thead>
       <tr>
@@ -73,6 +99,9 @@
         <th scope="col">URL</th>
         <th scope="col">Clicks</th>
         <th scope="col">Date Created</th>
+        <th scope="col">Date Expired</th>
+        <th scope="col">Action</th>
+
       </tr>
     </thead>
     <tbody>
@@ -83,61 +112,70 @@
         <td><%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
-        <td><%= moment(link[i].dateCreated).format("DD MM YYYY hh:mm:ss") %> </td>
-        <td> <button onclick="toggleEditForm()" class="btn btn-danger">Edit</button></td>
+        <% if (link[i].expireAt) { %>
+        <td><%= moment(link[i].expireAt).format("DD-MM-YYYY hh:mm A") %> </td>
+        <% } %> <%  if(link[i].expireAt == undefined) { %>
+          <td>NA </td>
+          <% } %>
+        <!-- <td> <button onclick="toggleEditForm()" class="btn btn-danger">Edit</button></td> -->
+        <td><div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Action
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
+            <button class="dropdown-item" type="button" data-toggle="modal" data-target="#exampleModal<%=i%>">Edit</button>
+            <form method="POST" action="/deleteLink" class="dropdown-item" style="padding: 0px;">
+              <input type="string" value="<%= link[i]._id %>" style="display: none;" name="linkid">
+              <input type="submit" value="Delete" class="dropdown-item">
+          </form>
+          </div>
+        </div></td>
+        <div class="modal fade" id="exampleModal<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%= link[i].originalURL %> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form  method="POST" action="/updateLink">
+                <div class="form-group">
+                  <input type="string"class="form-control" id="id" value="<%= link[i]._id %>" style="display: none;" name="id">
+                </div>
+                <div class="form-group">
+                  <label for="shortURL">Short URL</label> <br>
+                  <input type="string" value="<%= link[i].shortURL %>" name="shortURL"  id="shortURL" placeholder="Short URL">
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="originalURL">Original URL</label> <br>
+                  <input type="string" value="<%= link[i].originalURL %>" name="originalURL" placeholder="Original URL" id="originalURL">
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="expire">Expire At</label> <br>
+                  <input type="datetime-local" name="expire", id="expire" value="<%= link[i].expireAt %>"> 
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </tr>
       <% } %>
       <% } %>
       </tbody>
       </table>
-<% if (locals.link) { %>
-<% for(var i=0; i < link.length; i++) { %>
-    <div>
-        <div id="feild">
-            <%= link[i].shortURL %>  <br>
-            <%= link[i].originalURL %>  <br>
-            <%= link[i].clicks %> <br>
-            <%= link[i].dateCreated %> <br>
-        </div>
-        <br>
-        <br>
-        <div id="edit" style="display: none;">
-            <form method="POST" action="/updateLink">
-                <input type="string" value="<%= link[i]._id %>" style="display: none;" name="id">
-                <input type="string" value="<%= link[i].shortURL %>" name="shortURL" placeholder="Short URL">
-                <input type="string" value="<%= link[i].originalURL %>" name="originalURL" placeholder="Original URL">
-                <input type="datetime-local" name="expire", id="expire"> 
-                <input type="submit" value="Save">
-            </form>
-        </div>
     </div>
-
-    <br>
-    <button onclick="toggleEditForm()">Edit</button>
-    <br>
-    <br>
-    <form method="POST" action="/deleteLink">
-        <input type="string" value="<%= link[i]._id %>" style="display: none;" name="linkid">
-        <input type="submit" value="Delete">
-    </form>
-    <hr>
-    <% } %>
-    <% } %>
     <script>
-        isEdit = false;
 
-        function toggleEditForm() {
-            if (!isEdit) {
-                document.getElementById('feild').style.display = 'none';
-                document.getElementById('edit').style.display = 'inherit';
-
-            } else {
-                document.getElementById('feild').style.display = 'inherit';
-                document.getElementById('edit').style.display = 'none';
-
-            }
-        }
     </script>
+    </div>
+    <%- include("./partials/footer.ejs") %>
+
   </body>
 </html>
 
