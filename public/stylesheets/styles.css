@@ -70,4 +70,11 @@ input {
   .formCreateMobile {
     display: inherit;
   }
+  .herosection {
+    flex-direction: column-reverse;
+  }
+  .info {
+    text-align: center;
+    margin-top: 25px;
+  }
 }

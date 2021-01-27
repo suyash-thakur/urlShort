@@ -10,6 +10,9 @@ const moment = require('moment');
 router.get('/home/user', (req, res) => {
     res.send('working');
 });
+router.get('/home/about', (req, res) => {
+    res.render('about');
+});
 
 router.get('/user/signup', (req, res) => {
     res.render('signup');
@@ -21,6 +24,9 @@ router.get('/user/dashboard', checkAuth, (req, res) => {
         errorString = "Short URL name already taken";
     } else if (req.query.error == 'ERRDP02') {
         errorString = "Error Creating link";
+
+     } else if (req.query.error == 'ERRDT') {
+        errorString = "Invalid Date Selected";
 
      } else {
         errorString = undefined;
@@ -99,9 +105,18 @@ router.post('/login', (req, res, next) => {
 
 router.post('/createLink', checkAuth, (req, res, next) => {
     let Expire;
-    let userID = req.cookies.id;
+
+
+   
     if (req.body.expire) {
+        var epoch = moment(req.body.expire).unix();
+        let userID = req.cookies.id;
+        console.log(epoch);
         Expire = req.body.expire;
+        if (epoch <= Date.now()) { 
+            res.redirect('/user/dashboard/?error=ERRDT');
+    
+        }
     } else {
         Expire = undefined;
     }
@@ -125,7 +140,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    res.render('login');
+    res.render('about');
 });
 router.get('/:data', (req, res) => {
     let data = req.params.data;
