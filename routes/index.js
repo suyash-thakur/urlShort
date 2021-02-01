@@ -124,7 +124,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
         shortURL: req.body.shortURL,
         originalURL: req.body.originalURL,
         expireAt: Expire,
-        author: userID
+        author: req.cookies.id
     });
     link.save().then(link => {
         res.redirect('/user/dashboard/?success=LNKCR01');
