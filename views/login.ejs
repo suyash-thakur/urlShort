@@ -10,6 +10,56 @@
                 <%= error %>
             </div>
         <% } %>
+        <div id="my-signin2"></div>
+  <script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getId());
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getEmail());
+      document.getElementById('emailGoogle').value = googleUser.getBasicProfile().getEmail();
+      document.getElementById('passwordGoogle').value = googleUser.getBasicProfile().getId();
+      document.getElementById('emailname').value = googleUser.getBasicProfile().getName();
+      var auth2 = gapi.auth2.getAuthInstance();
+     auth2.disconnect();
+      document.getElementById('googleSubmit').click();
+
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+    function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    var cookies = document.cookie.split(";");
+
+for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+}
+      gapi.auth2.getAuthInstance().disconnect().then(() => {
+        console.log('User signed out.');
+      }  );   
+
+  }
+  </script>
+        <hr>
+        <form action="/googleSignin" method="POST" style="display: none;">
+          <input type="string" name="name" id="emailname" placeholder="Name" class="form-control"  required>
+          <input type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" type="email" required  id="emailGoogle" name="email">
+          <input type="password" class="form-control"  required  id="passwordGoogle" name="password" placeholder="Password">
+          <button type="submit" class="btn btn-primary" id="googleSubmit">Submit</button>
+        </form>
         <form action="/login" method="POST">
             <div class="form-group">
               <label for="email">Email address</label>
@@ -26,5 +76,6 @@
 </div>
 </div>
 <br>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <%- include("./partials/footer.ejs") %>
 

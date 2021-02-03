@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="\stylesheets\styles.css" type="text/css" />
     <link rel="stylesheet" href="\stylesheets\_variables.scss" type="text/css" />
     <link rel="stylesheet" href="\stylesheets\_bootswatch.scss" type="text/css" />
-
-
+    <meta name="google-signin-client_id" content="230195840231-t2l5aobst7b00o5frd14it5afu4i07g4.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <title>Link</title>
   </head>
   <body>
@@ -28,7 +28,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/user/login">Sign-Out</a>
+              <a class="nav-link"  onclick="signOut();">Sign-Out</a>
             </li>
           
           </ul>
@@ -106,7 +106,7 @@
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
         <th scope="row"><%= link[i].shortURL %> </th>
-        <td><%= link[i].originalURL %></td>
+        <td>https://link000.herokuapp.com/ + <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
         <% if (link[i].expireAt) { %>
@@ -168,6 +168,23 @@
       </table>
     </div>
     <script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    var cookies = document.cookie.split(";");
+
+for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+}
+      gapi.auth2.getAuthInstance().disconnect().then(() => {
+        console.log('User signed out.');
+      }  );   
+      location.href = window.location.protocol + "//" + window.location.hostname + ':3000' + '/user/login';
+
+
+  }
 
     </script>
     </div>

@@ -142,6 +142,74 @@ router.post('/createLink', checkAuth, (req, res, next) => {
 router.get('/', (req, res) => {
     res.render('about');
 });
+
+router.post('/googleSignin', async (req, res) => {
+    const { email, password } = req.body;
+    var user = await User.find({ email: req.body.email });
+    if (user.length <= 0) {
+        
+        bcrypt.hash(req.body.password, 10).then(hash => {
+            const user = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: hash
+            });
+            user.save().then(
+                result => {
+                    if (result) {
+                        User.findOne({ email: email }).then(user => {
+                            if (user) {
+                                fetchedUser = user;
+                                return bcrypt.compare(req.body.password, user.password);
+                            }
+                        }).then(
+                            result => {
+                                if (!result) {
+                                    res.render('login', { error: "Email Id already used" });
+                                } else {
+                                    res.cookie("name", fetchedUser.name);
+                                    res.cookie("email", fetchedUser.email);
+                                    res.cookie("password", fetchedUser.password);
+                                    res.cookie("id", fetchedUser._id);
+                                    res.redirect('/user/dashboard');
+                                }
+                            }
+                        ).catch(err => {
+                            console.log(err);
+                        });
+                    }
+                }
+            ).catch(err => {
+                if (err.code && err.code == 11000) {
+                    res.render('signup', { error2: 'Account with this email-Id already found' });
+                } else { 
+                    res.render('signup', { error2: 'Error Signing Up' });
+                }
+            });
+        });
+    } else if (user.length > 0) {
+        User.findOne({ email: email }).then(user => {
+            if (user) {
+                fetchedUser = user;
+                return bcrypt.compare(req.body.password, user.password);
+            }
+        }).then(
+            result => {
+                if (!result) {
+                    res.render('login', { error: "Account with this email-Id already found" });
+                } else {
+                    res.cookie("name", fetchedUser.name);
+                    res.cookie("email", fetchedUser.email);
+                    res.cookie("password", fetchedUser.password);
+                    res.cookie("id", fetchedUser._id);
+                    res.redirect('/user/dashboard');
+                }
+            }
+        ).catch(err => {
+            console.log(err);
+        });
+    }
+});
 router.get('/:data', (req, res) => {
     let data = req.params.data;
     Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
