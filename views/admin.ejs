@@ -57,11 +57,12 @@
 <h3>Create Link</h3>
 <br>
 <div  class="formCreate">
-    <div style="background-color: #fff;  padding-left: 20px;  border: 2px solid #eb6864;">
+    <div style="background-color: #fff; padding-left: 10px;  border: 2px solid #eb6864;">
 <form method="POST" action="/createLink">
+  <input type="string" value="https://link000.herokuapp.com/" style="text-decoration: none; border: none; width: 250px" disabled>
     <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
     <input type="string" placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
-    <input type="datetime-local" name="expire", id="expire" placeholder="Expiration Date"  class="inputURL" style="  border-right: none;"> 
+    <input type = "text"  onfocus = "(this.type = 'datetime-local')" name="expire", id="expire" placeholder="Expiration Date (Optional)"  class="inputURL" style="  border-right: none;"> 
     <input type="submit" class="btn  inputURLSubmit" value="Create">
 </form>
 
@@ -72,10 +73,11 @@
 <div class="card formCreateMobile">
   <div class="card-body">
 <form>
-  <div class="mb-3">
-    <input type="string" class="form-control" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
+  <div class="mb-3" style="display: flex;">
+    <input type="string" value="https://link000.herokuapp.com/" disabled class="form-control" style="flex: 1;">
+    <input type="string" class="form-control" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL" style="flex: 1;">
   </div>
-  <div class="mb-3">
+  <div class="mb-3" >
     <input type="string" class="form-control"  placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
 
   </div>
@@ -105,8 +107,8 @@
         <% if (locals.link) { %>
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
-        <th scope="row"><%= link[i].shortURL %> </th>
-        <td>https://link000.herokuapp.com/ + <%= link[i].originalURL %></td>
+        <th scope="row">https://link000.herokuapp.com/<%= link[i].shortURL %> </th>
+        <td> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
         <% if (link[i].expireAt) { %>

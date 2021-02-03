@@ -9,6 +9,7 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
 }
 .inputURL {
   border-bottom: none !important;
@@ -62,6 +63,13 @@ input {
 }
 .formCreateMobile {
   display: none;
+}
+input[type="date"]::before {
+  color: #ffffff;
+  content: attr(placeholder) ": ";
+}
+input[type="date"]:focus::before {
+  content: "" !important;
 }
 @media only screen and (max-width: 1000px) {
   .formCreate {
