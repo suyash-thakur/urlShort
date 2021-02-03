@@ -183,7 +183,8 @@ for (var i = 0; i < cookies.length; i++) {
       gapi.auth2.getAuthInstance().disconnect().then(() => {
         console.log('User signed out.');
       }  );   
-      location.href = window.location.protocol + "//" + window.location.hostname + ':3000' + '/user/login';
+      // location.href = window.location.protocol + "//" + window.location.hostname + ':3000' + '/user/login';
+      location.href = 'https://link000.herokuapp.com/user/login'
 
 
   }
