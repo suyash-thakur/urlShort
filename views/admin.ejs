@@ -59,7 +59,7 @@
 <div  class="formCreate">
     <div style="background-color: #fff; padding-left: 10px;  border: 2px solid #eb6864;">
 <form method="POST" action="/createLink">
-  <input type="string" value="https://link000.herokuapp.com/" style="text-decoration: none; border: none; width: 250px" disabled>
+  <input type="string" value="https://www.anurl.in/" style="text-decoration: none; border: none; width: 250px" disabled>
     <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
     <input type="string" placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
     <input type = "text"  onfocus = "(this.type = 'datetime-local')" name="expire", id="expire" placeholder="Expiration Date (Optional)"  class="inputURL" style="  border-right: none;"> 
@@ -74,7 +74,7 @@
   <div class="card-body">
 <form>
   <div class="mb-3" style="display: flex;">
-    <input type="string" value="https://link000.herokuapp.com/" disabled class="form-control" style="flex: 1;">
+    <input type="string" value="https://www.anurl.in/" disabled class="form-control" style="flex: 1;">
     <input type="string" class="form-control" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL" style="flex: 1;">
   </div>
   <div class="mb-3" >
@@ -107,7 +107,7 @@
         <% if (locals.link) { %>
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
-        <th scope="row">https://link000.herokuapp.com/<%= link[i].shortURL %> </th>
+        <th scope="row">https://www.anurl.in/<%= link[i].shortURL %> </th>
         <td> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
@@ -184,7 +184,7 @@ for (var i = 0; i < cookies.length; i++) {
         console.log('User signed out.');
       }  );   
       // location.href = window.location.protocol + "//" + window.location.hostname + ':3000' + '/user/login';
-      location.href = 'https://link000.herokuapp.com/user/login'
+      location.href = 'https://www.anurl.in/user/login'
 
 
   }
