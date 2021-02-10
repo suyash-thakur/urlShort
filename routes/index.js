@@ -5,7 +5,7 @@ const Link = require('../models/Link');
 const bcrypt = require('bcryptjs');
 const checkAuth = require('./auth.js');
 const   mongoose = require("mongoose");
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 router.get('/home/user', (req, res) => {
     res.send('working');
@@ -114,7 +114,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
         let userID = req.cookies.id;
         let UTCDate = moment().utc(epoch).format();
         console.log(epoch);
-        Expire = moment(req.body.expire).utcOffset('+5:30').toDate();
+        Expire = moment(req.body.expire).tz('Asia/Kolkata').toDate();
         console.log(Expire);
 
         if (epoch <= Date.now()) { 
