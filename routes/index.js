@@ -130,7 +130,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
     const link = new Link({
         shortURL: req.body.shortURL,
         originalURL: req.body.originalURL,
-        expireAt: epoch,
+        expireAt: Expire,
         author: req.cookies.id
     });
     link.save().then(link => {
