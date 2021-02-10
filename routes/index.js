@@ -112,6 +112,9 @@ router.post('/createLink', checkAuth, (req, res, next) => {
     if (req.body.expire) {
         var epoch = moment(req.body.expire).valueOf();
         let userID = req.cookies.id;
+        let UTCDate = moment().utc(epoch).format();
+        console.log(epoch);
+        console.log(UTCDate);
         Expire = req.body.expire;
 
         if (epoch <= Date.now()) { 
@@ -127,7 +130,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
     const link = new Link({
         shortURL: req.body.shortURL,
         originalURL: req.body.originalURL,
-        expireAt: Expire,
+        expireAt: epoch,
         author: req.cookies.id
     });
     link.save().then(link => {
