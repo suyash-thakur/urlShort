@@ -114,8 +114,8 @@ router.post('/createLink', checkAuth, (req, res, next) => {
         let userID = req.cookies.id;
         let UTCDate = moment().utc(epoch).format();
         console.log(epoch);
-        console.log(UTCDate);
-        Expire = req.body.expire;
+        Expire = moment(req.body.expire).utcOffset('+5.30').toDate();
+        console.log(Expire);
 
         if (epoch <= Date.now()) { 
             isTimevalid = false;
