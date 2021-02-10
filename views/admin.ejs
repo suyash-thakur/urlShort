@@ -113,7 +113,7 @@
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
         <% if (link[i].expireAt) { %>
-        <td><%= moment(link[i].expireAt).format("DD-MM-YYYY hh:mm A") %> </td>
+        <td><%= moment(link[i].expireAt).add(5, 'hour').add(30, 'minute').format("DD-MM-YYYY hh:mm A") %> </td>
         <% } %> <%  if(link[i].expireAt == undefined) { %>
           <td>NA </td>
           <% } %>
