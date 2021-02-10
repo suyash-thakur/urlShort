@@ -106,20 +106,24 @@ router.post('/login', (req, res, next) => {
 router.post('/createLink', checkAuth, (req, res, next) => {
     let Expire;
 
+    var isTimevalid = true;
 
    
     if (req.body.expire) {
-        var epoch = moment(req.body.expire).unix();
+        var epoch = moment(req.body.expire).valueOf();
         let userID = req.cookies.id;
-        console.log(epoch);
         Expire = req.body.expire;
+
         if (epoch <= Date.now()) { 
+            isTimevalid = false;
             res.redirect('/user/dashboard/?error=ERRDT');
-    
+            
         }
     } else {
         Expire = undefined;
     }
+    if (isTimevalid === true) { 
+
     const link = new Link({
         shortURL: req.body.shortURL,
         originalURL: req.body.originalURL,
@@ -137,6 +141,8 @@ router.post('/createLink', checkAuth, (req, res, next) => {
 
         }
     });
+}
+
 });
 
 router.get('/', (req, res) => {
