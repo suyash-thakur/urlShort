@@ -99,35 +99,34 @@
 
 <h3>Links</h3>
 <br>
-<div style="display: flex; width: 100%;overflow-x: auto;">
-  <div>
-    <div class="input-group">
-      <form method="POST" action="/user/dashboard/search" style="display: flex;">
-      <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-        aria-describedby="search-addon" id="search" />
-      <button type="Submit" class="btn btn-outline-secondary">search</button>
-    </form>
-    </div>
-  </div>
-  <div style="flex-grow: 1;">
-
-  </div>
-  <div>
-    <div class="dropdown show">
-      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort by
-      </a>
-    
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="/user/dashboard">Newest</a>
-        <a class="dropdown-item" href="/user/dashboard/oldest">oldest</a>
-        <a class="dropdown-item" href="/user/dashboard/clicks">Clicks</a>
+<div class="wrapper">
+  <div style="display: flex; width: 100%;overflow-x: auto;">
+    <div>
+      <div class="input-group">
+        <form method="POST" action="/user/dashboard/search" style="display: flex;">
+        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" id="search" />
+        <button type="Submit" class="btn btn-outline-secondary">search</button>
+      </form>
       </div>
     </div>
-  </div>
-</div><br>
-<div class="wrapper">
-  
+    <div style="flex-grow: 1;">
+
+    </div>
+    <div>
+      <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sort by
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="/user/dashboard">Newest</a>
+          <a class="dropdown-item" href="/user/dashboard/oldest">oldest</a>
+          <a class="dropdown-item" href="/user/dashboard/clicks">Clicks</a>
+        </div>
+      </div>
+    </div>
+  </div><br>
 <table class="table table-hover" style="overflow-x: auto;">
     <thead>
       <tr>
