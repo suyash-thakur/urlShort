@@ -13,9 +13,114 @@ router.get('/home/user', (req, res) => {
 router.get('/home/about', (req, res) => {
     res.render('about');
 });
-
+router.get('/user/about', checkAuth, (req, res) => {
+    res.render('aboutLogin');
+});
 router.get('/user/signup', (req, res) => {
     res.render('signup');
+});
+router.get('/user/dashboard/oldest', checkAuth, (req, res) => { 
+    var errorString;
+    var successString;
+    if (req.query.error == 'ERRDP01') { 
+        errorString = "Short URL name already taken";
+    } else if (req.query.error == 'ERRDP02') {
+        errorString = "Error Creating link";
+
+     } else if (req.query.error == 'ERRDT') {
+        errorString = "Invalid Date Selected";
+
+     } else {
+        errorString = undefined;
+    }
+    if (req.query.success == 'LNKCR01') { 
+        successString = "Link Created";
+    } else if (req.query.success == 'LNKUP01') {
+        successString = "Link Updated";
+
+     } else if (req.query.success == 'LNKDR01') {
+        successString = "Link Deleted";
+
+     } else {
+        successString = undefined;
+    }
+    Link.find({ author: req.cookies.id }).then(link => {
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment, error: errorString, msg:successString });
+    });
+});
+router.get('/user/dashboard/clicks', checkAuth, (req, res) => { 
+    var errorString;
+    var successString;
+    if (req.query.error == 'ERRDP01') { 
+        errorString = "Short URL name already taken";
+    } else if (req.query.error == 'ERRDP02') {
+        errorString = "Error Creating link";
+
+     } else if (req.query.error == 'ERRDT') {
+        errorString = "Invalid Date Selected";
+
+     } else {
+        errorString = undefined;
+    }
+    if (req.query.success == 'LNKCR01') { 
+        successString = "Link Created";
+    } else if (req.query.success == 'LNKUP01') {
+        successString = "Link Updated";
+
+     } else if (req.query.success == 'LNKDR01') {
+        successString = "Link Deleted";
+
+     } else {
+        successString = undefined;
+    }
+    Link.find({ author: req.cookies.id }).then(link => {
+        link.sort(function (a, b) {
+            return parseInt(a.clicks) - parseInt(b.clicks);
+        });
+        link.reverse();
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment, error: errorString, msg:successString });
+    });
+});
+router.post('/user/dashboard/search', checkAuth, (req, res) => { 
+    var errorString;
+    var successString;
+    if (req.query.error == 'ERRDP01') { 
+        errorString = "Short URL name already taken";
+    } else if (req.query.error == 'ERRDP02') {
+        errorString = "Error Creating link";
+
+     } else if (req.query.error == 'ERRDT') {
+        errorString = "Invalid Date Selected";
+
+     } else {
+        errorString = undefined;
+    }
+    if (req.query.success == 'LNKCR01') { 
+        successString = "Link Created";
+    } else if (req.query.success == 'LNKUP01') {
+        successString = "Link Updated";
+
+     } else if (req.query.success == 'LNKDR01') {
+        successString = "Link Deleted";
+
+     } else {
+        successString = undefined;
+    }
+    if (req.body.search === undefined) {
+        res.redirect('/user/dashboard')
+    } else { 
+        Link.find({ author: req.cookies.id }).then(links => {
+            let search = req.body.search;
+            let matches = [];
+            for (var i = 0; i < links.length; i++) { 
+                if (links[i].shortURL.includes(search) || links[i].originalURL.includes(search)) { 
+                    matches.push(links[i]);
+                }
+            }
+            res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: matches, moment: moment, error: errorString, msg:successString, search: search});
+        });
+    }
+
 });
 router.get('/user/dashboard', checkAuth, (req, res) => { 
     var errorString;
@@ -43,6 +148,7 @@ router.get('/user/dashboard', checkAuth, (req, res) => {
         successString = undefined;
     }
     Link.find({ author: req.cookies.id }).then(link => {
+        link = link.reverse();
         res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment, error: errorString, msg:successString });
     });
 });

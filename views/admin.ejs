@@ -16,7 +16,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">ANURL</a>
+        <a class="navbar-brand" href="#"><img src="/assets/Final_logo2.png" style="max-width: 40px; margin-right: 15px;">ANURL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -28,10 +28,15 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
+      
+            <li class="nav-item ">
+              <a class="nav-link" href="/user/about">About
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link"  href="/user/login">Sign-Out</a>
             </li>
-          
           </ul>
         </div>
       </nav>
@@ -91,7 +96,35 @@
 </div>
 </div>
 <h3>Links</h3>
+<br>
 <div class="wrapper">
+  <div style="display: flex;">
+    <div>
+      <div class="input-group">
+        <form method="POST" action="/user/dashboard/search" style="display: flex;">
+        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" id="search" />
+        <button type="Submit" class="btn btn-outline-secondary">search</button>
+      </form>
+      </div>
+    </div>
+    <div style="flex-grow: 1;">
+
+    </div>
+    <div>
+      <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sort by
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="/user/dashboard">Newest</a>
+          <a class="dropdown-item" href="/user/dashboard/oldest">oldest</a>
+          <a class="dropdown-item" href="/user/dashboard/clicks">Clicks</a>
+        </div>
+      </div>
+    </div>
+  </div><br>
 <table class="table table-hover" style="overflow-x: auto;">
     <thead>
       <tr>
@@ -192,8 +225,15 @@ for (var i = 0; i < cookies.length; i++) {
 
     </script>
     </div>
+    <% if (locals.search) { %>
+      <script>
+        var searchTearm = '<%- JSON.stringify(search) %>';
+        console.log(searchTearm);
+        document.getElementById('search').value = searchTearm;
+      </script>
+ <% } %>
     <%- include("./partials/footer.ejs") %>
-
+   
   </body>
 
 </html>
