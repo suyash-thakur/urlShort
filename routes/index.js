@@ -14,7 +14,7 @@ router.get('/home/about', (req, res) => {
     res.render('about');
 });
 router.get('/user/about', checkAuth, (req, res) => {
-    res.render('aboutLogin');
+    res.render('aboutlogin');
 });
 router.get('/user/signup', (req, res) => {
     res.render('signup');
