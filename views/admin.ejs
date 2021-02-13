@@ -141,7 +141,7 @@
         <% if (locals.link) { %>
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
-        <th scope="row">www.anurl.in/<%= link[i].shortURL %> </th>
+        <th scope="row">www.anurl.in/<%= link[i].shortURL %>  <a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a></th>
         <td> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
@@ -232,6 +232,7 @@ for (var i = 0; i < cookies.length; i++) {
         document.getElementById('search').value = searchTearm;
       </script>
  <% } %>
+
     <%- include("./partials/footer.ejs") %>
    
   </body>
