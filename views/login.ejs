@@ -10,7 +10,12 @@
                 <%= error %>
             </div>
         <% } %>
-        <div id="my-signin2"></div>
+        <form action="/guestLogin" method="POST">
+          <button type="submit" class="btn btn-secondary" style="width: 100%;">Guest Login</button>
+
+        </form>
+        <hr>
+        <div id="my-signin2" ></div>
   <script>
     function onSuccess(googleUser) {
       console.log('Logged in as: ' + googleUser.getBasicProfile().getId());
@@ -53,7 +58,9 @@ for (var i = 0; i < cookies.length; i++) {
 
   }
   </script>
+  
         <hr>
+ 
         <form action="/googleSignin" method="POST" style="display: none;">
           <input type="string" name="name" id="emailname" placeholder="Name" class="form-control"  required>
           <input type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" type="email" required  id="emailGoogle" name="email">

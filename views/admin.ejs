@@ -53,6 +53,13 @@
       <strong><%= msg %></strong> 
     </div>
 <% } %>
+<% if (locals.guest) { %>
+  <div class="alert alert-dismissible alert-primary" id="warning">
+
+    <strong>Link created using guest account can only be used for 48 hours.</strong> 
+  </div>
+  <% } %>
+
 <br>
 <div>
     <%= name %> <br>
@@ -69,6 +76,8 @@
     <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
     <input type="string" placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
     <input type = "text"  onfocus = "(this.type = 'datetime-local')" name="expire", id="expire" placeholder="Expiration Date (Optional)"  class="inputURL" style="  border-right: none;"> 
+    <input type = "text"  class="form-control" name="expire", id="expire-guest"  style="  border-right: none; display: none;" class="inputURL" > 
+
     <input type="submit" class="btn  inputURLSubmit" value="Create">
 </form>
 
@@ -86,7 +95,9 @@
 
   </div>
   <div class="mb-3">
-    <input type = "text"  onfocus = "(this.type = 'datetime-local')" class="form-control" name="expire", id="expire" placeholder="Expiration Date (optional) "  class="inputURL" style="  border-right: none;"> 
+    <input type = "text"  onfocus = "(this.type = 'datetime-local')" class="form-control" name="expire", id="expire-mob" placeholder="Expiration Date (optional) "  class="inputURL" style="  border-right: none;"> 
+    <input type = "text"   name="expire", id="expire-guest-mob"  style="  border-right: none; " class="form-control inputURL" > 
+
   </div>
   <input type="submit" class="btn  btn-primary" value="Submit">
 
@@ -142,7 +153,7 @@
         <% if (locals.link) { %>
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
-        <th scope="row">www.anurl.in/<%= link[i].shortURL %>  <a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a></th>
+        <th scope="row" id="link_<%= i %>"> <span style="cursor:pointer" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">www.anurl.in/<%= link[i].shortURL %>  </span><a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a> <button class="btn btn-secondary btn-sm linkBtn" id="linkbtn_<%= i %>" style="margin-left: 10px;" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">Copy Link</button> </th>
         <td> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
@@ -233,6 +244,60 @@ for (var i = 0; i < cookies.length; i++) {
         document.getElementById('search').value = searchTearm;
       </script>
  <% } %>
+
+ <% if (locals.guest) { %>
+  <script>
+    var guest = '<%- guest %>';
+
+    if(guest == 'false') {
+      console.log(guest);
+      document.getElementById('warning').style.display = 'none';
+    }
+    if(guest == 'true') {
+      console.log(guest);
+
+      var d = Date.now() + (2*86400*1000);
+
+      console.log(d);
+      document.getElementById('expire').style.display='none';
+      document.getElementById('expire').disabled = true;
+      document.getElementById('expire-mob').style.display='none';
+      document.getElementById('expire-mob').disabled = true;
+      document.getElementById('expire-guest').value = new Date(d);
+      document.getElementById('expire-guest').readOnly = true;;
+      document.getElementById('expire-guest-mob').value = new Date(d);
+      document.getElementById('expire-guest-mob').readOnly = true;;
+
+    } else {
+      document.getElementById('expire-guest').display = 'none';
+      document.getElementById('expire-guest').disabled = true;;
+      document.getElementById('expire-guest-mob').display = 'none';
+      document.getElementById('expire-guest-mob').disabled = true;;
+    }
+    function focus() {
+      if(guest == 'false') {
+      document.getElementById('expire').type = "datetime-local";
+      } 
+    }
+  </script>
+<% } %>
+<script>
+  function copy_password(id, btnId) {
+    var copyText = document.getElementById(id);
+    var textArea = document.createElement("textarea");
+    textArea.value = copyText.textContent;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("Copy");
+    textArea.remove();
+    var btn = document.getElementsByClassName('linkBtn');
+    for(var j = 0; j < btn.length; j++) {
+      btn[j].innerText ="Copy Link";
+    }
+    document.getElementById(btnId).innerText = "Link Copied";
+
+}
+</script>
 
     <%- include("./partials/footer.ejs") %>
    

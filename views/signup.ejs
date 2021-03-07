@@ -16,7 +16,11 @@
             <div style="color: green;" role="alert">
                 <%= msg %>
             </div>
-        <% } %>
+        <% } %>      <form action="/guestLogin" method="POST">
+          <button type="submit" class="btn btn-secondary" style="width: 100%;">Guest Login</button>
+
+        </form>
+        <hr>
         <div id="my-signin2"></div>
         <script>
           function onSuccess(googleUser) {

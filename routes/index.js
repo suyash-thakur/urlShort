@@ -6,6 +6,8 @@ const bcrypt = require('bcryptjs');
 const checkAuth = require('./auth.js');
 const   mongoose = require("mongoose");
 const moment = require('moment-timezone');
+var generatePassword = require("password-generator");
+var rug = require('random-username-generator');
 
 router.get('/home/user', (req, res) => {
     res.send('working');
@@ -149,7 +151,7 @@ router.get('/user/dashboard', checkAuth, (req, res) => {
     }
     Link.find({ author: req.cookies.id }).then(link => {
         link = link.reverse();
-        res.render('admin', {name: req.cookies.name, email: req.cookies.email, link: link, moment: moment, error: errorString, msg:successString });
+        res.render('admin', {name: req.cookies.name, email: req.cookies.email, guest: req.cookies.guest, link: link, moment: moment, error: errorString, msg:successString });
     });
 });
 router.get('/user/login', (req, res) => {
@@ -163,7 +165,8 @@ router.post('/user/signup', (req, res, next) => {
             const user = new User({
                 name: req.body.name,
                 email: req.body.email,
-                password: hash
+                password: hash,
+                isGuest: false
             });
             user.save().then(
                 result => {
@@ -200,6 +203,7 @@ router.post('/login', (req, res, next) => {
                     res.cookie("email", fetchedUser.email);
                     res.cookie("password", fetchedUser.password);
                     res.cookie("id", fetchedUser._id);
+                    res.cookie("guest", fetchedUser.isGuest);
                     res.redirect('/user/dashboard');
                 }
             }
@@ -213,7 +217,7 @@ router.post('/createLink', checkAuth, (req, res, next) => {
     let Expire;
 
     var isTimevalid = true;
-
+    console.log(req.body.expire);
    
     if (req.body.expire) {
         var epoch = moment(req.body.expire).valueOf() - 19800000;
@@ -286,6 +290,7 @@ router.post('/googleSignin', async (req, res) => {
                                     res.cookie("email", fetchedUser.email);
                                     res.cookie("password", fetchedUser.password);
                                     res.cookie("id", fetchedUser._id);
+                                    res.cookie("guest", fetchedUser.isGuest);
                                     res.redirect('/user/dashboard');
                                 }
                             }
@@ -317,6 +322,8 @@ router.post('/googleSignin', async (req, res) => {
                     res.cookie("email", fetchedUser.email);
                     res.cookie("password", fetchedUser.password);
                     res.cookie("id", fetchedUser._id);
+                    res.cookie("guest", fetchedUser.isGuest);
+
                     res.redirect('/user/dashboard');
                 }
             }
@@ -358,5 +365,29 @@ router.post('/deleteLink', (req, res) => {
     Link.findByIdAndDelete(id).then(link => { 
         res.redirect('/user/dashboard?success=LNKDR01');
     })
+});
+
+router.post('/guestLogin', (req, res) => {
+    var userName = rug.generate();
+    var passWord = generatePassword();
+    bcrypt.hash(passWord, 10).then(hash => {
+        const user = new User({
+            name: 'Guest User',
+            email: userName,
+            password: hash,
+            isGuest: true
+        });
+        user.save().then(
+            result => {
+                res.cookie("name", result.name);
+                res.cookie("email", result.email);
+                res.cookie("password", result.password);
+                res.cookie("id", result._id);
+                res.cookie("guest", result.isGuest);
+
+                res.redirect('/user/dashboard');
+            }
+        )
+    });
 });
 module.exports = router;
