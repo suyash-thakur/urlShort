@@ -153,7 +153,7 @@
         <% if (locals.link) { %>
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
-        <th scope="row" id="link_<%= i %>"> <span style="cursor:pointer" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">www.anurl.in/<%= link[i].shortURL %>  </span><a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a> <button class="btn btn-secondary btn-sm linkBtn" id="linkbtn_<%= i %>" style="margin-left: 10px;" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">Copy Link</button> </th>
+        <th scope="row" > <span style="cursor:pointer" id="link_<%= i %>">www.anurl.in/<%= link[i].shortURL %>  </span><a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a> <button class="btn btn-secondary btn-sm linkBtn" id="linkbtn_<%= i %>" style="margin-left: 10px;" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">Copy Link</button> </th>
         <td> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>

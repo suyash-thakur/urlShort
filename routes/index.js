@@ -341,7 +341,25 @@ router.get('/:data', (req, res) => {
         }
     })
 });
+router.get('/:data/:data2', (req, res) => {
+    let data = req.params.data + "/" + req.params.data2;
+    Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
+    {new: true}, ).then(link => {
+        if (link) {
+            res.redirect(link.originalURL);
+        }
+    })
+});
 
+router.get('/:data/:data2/:data3', (req, res) => {
+    let data = req.params.data + "/" + req.params.data2 + "/" + req.params.data3;
+    Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
+    {new: true}, ).then(link => {
+        if (link) {
+            res.redirect(link.originalURL);
+        }
+    })
+});
 router.post('/updateLink', checkAuth, (req, res) => {
     let Expire;
     let linkID = mongoose.Schema.ObjectId(req.body.id);
