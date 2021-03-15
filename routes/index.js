@@ -343,6 +343,7 @@ router.get('/:data', (req, res) => {
 });
 router.get('/:data/:data2', (req, res) => {
     let data = req.params.data + "/" + req.params.data2;
+    console.log(data);
     Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
     {new: true}, ).then(link => {
         if (link) {
