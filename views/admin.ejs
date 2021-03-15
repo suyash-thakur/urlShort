@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="\stylesheets\_bootswatch.scss" type="text/css" />
     <meta name="google-signin-client_id" content="230195840231-t2l5aobst7b00o5frd14it5afu4i07g4.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-    <title>anurl.com</title>
+    <title>anurl.in</title>
     <link rel = "icon" href = "/assets/Final_logo2.png" type = "image/x-icon"> 
   </head>
   <body>
@@ -137,11 +137,13 @@
 </div>
 <div class="wrapper">
 
-<table class="table table-hover" style="overflow-x: auto;">
+<table class="table table-hover" style="overflow-x: auto; white-space:normal !important;">
     <thead>
       <tr>
         <th scope="col">Short Link</th>
-        <th scope="col">URL</th>
+        <th scope="col" style="word-wrap:break-word;
+        white-space: normal;
+        max-width: 150px;" >URL</th>
         <th scope="col">Clicks</th>
         <th scope="col">Date Created</th>
         <th scope="col">Date Expired</th>
@@ -154,7 +156,8 @@
             <% for(var i=0; i < link.length; i++) { %>
       <tr class="table-active">
         <th scope="row" > <span style="cursor:pointer" id="link_<%= i %>">www.anurl.in/<%= link[i].shortURL %>  </span><a  href="https://www.anurl.in/<%= link[i].shortURL %>" target="new"><img src="/assets/link.png" style="max-width: 15px; margin-left: 10px;"></a> <button class="btn btn-secondary btn-sm linkBtn" id="linkbtn_<%= i %>" style="margin-left: 10px;" onclick="copy_password('link_<%= i %>', 'linkbtn_<%= i %>')">Copy Link</button> </th>
-        <td> <%= link[i].originalURL %></td>
+        <td style="word-wrap: break-word;
+        max-width: 150px;"> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
         <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
         <% if (link[i].expireAt) { %>
