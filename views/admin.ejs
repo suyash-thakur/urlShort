@@ -159,7 +159,9 @@
         <td style="word-wrap: break-word;
         max-width: 150px;"> <%= link[i].originalURL %></td>
         <td><%= link[i].clicks %> </td>
-        <td> <%= moment(link[i].dateCreated).format("DD-MM-YYYY") %></td>
+        <td>
+          <%= moment(link[i].dateCreated).add(5, 'hour' ).add(30, 'minute' ).format("DD-MM-YYYY") %>
+        </td>
         <% if (link[i].expireAt) { %>
         <td><%= moment(link[i].expireAt).add(5, 'hour').add(30, 'minute').format("DD-MM-YYYY hh:mm A") %> </td>
         <% } %> <%  if(link[i].expireAt == undefined) { %>
@@ -259,7 +261,7 @@ for (var i = 0; i < cookies.length; i++) {
     if(guest == 'true') {
       console.log(guest);
 
-      var d = Date.now() + (2*86400*1000);
+      var d = Date.now() + (2*86400*1000) - 19800000;
 
       console.log(d);
       document.getElementById('expire').style.display='none';
@@ -267,6 +269,7 @@ for (var i = 0; i < cookies.length; i++) {
       document.getElementById('expire-mob').style.display='none';
       document.getElementById('expire-mob').disabled = true;
       document.getElementById('expire-guest').value = new Date(d);
+      console.log(new Date(d));
       document.getElementById('expire-guest').readOnly = true;;
       document.getElementById('expire-guest-mob').value = new Date(d);
       document.getElementById('expire-guest-mob').readOnly = true;;
