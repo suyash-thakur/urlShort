@@ -71,6 +71,9 @@ input[type="date"]::before {
 input[type="date"]:focus::before {
   content: "" !important;
 }
+li {
+  font-size: 20px;
+}
 @media only screen and (max-width: 1000px) {
   .formCreate {
     display: none;
