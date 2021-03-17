@@ -21,6 +21,18 @@ router.get('/user/about', checkAuth, (req, res) => {
 router.get('/user/signup', (req, res) => {
     res.render('signup');
 });
+router.get('/user/use', (req, res) => {
+    res.render('use');
+});
+router.get('/home/use', (req, res) => {
+    res.render('useLogin');
+});
+router.get('/user/contact', (req, res) => {
+    res.render('contact');
+});
+router.get('/home/contact', (req, res) => {
+    res.render('contactLogin');
+});
 router.get('/user/dashboard/oldest', checkAuth, (req, res) => { 
     var errorString;
     var successString;
