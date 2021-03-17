@@ -79,7 +79,7 @@
   <input type="string" value="www.anurl.in/" style="text-decoration: none; border: none; width: 150px" disabled>
     <input type="string" placeholder="Short URL" name="shortURL" id="shortURL" class="inputURL">
     <input type="string" placeholder="Original URL" name="originalURL" id="originalURL"  class="inputURL">
-    <input type = "text"  onfocus = "(this.type = 'datetime-local')" name="expire", id="expire" placeholder="Expiration Date (Optional)"  class="inputURL" style="  border-right: none;"> 
+    <input type="text" onfocus="(this.type = 'datetime-local')" name="expire" , id="expire" placeholder="Expiration date/timestamp (Optional)" class="inputURL" style="  border-right: none;">
     <input type = "text"  class="form-control" name="expire", id="expire-guest"  style="  border-right: none; display: none;" class="inputURL" > 
 
     <input type="submit" class="btn  inputURLSubmit" value="Create">
@@ -150,7 +150,9 @@
         max-width: 150px;" >URL</th>
         <th scope="col">Clicks</th>
         <th scope="col">Date Created</th>
-        <th scope="col">Date Expired</th>
+    <input type="text" onfocus="(this.type = 'datetime-local')" class="form-control" name="expire" , id="expire-mob"
+      placeholder=" " class="inputURL" style="  border-right: none;">
+    <th scope="col">Expiration date/timestamp</th>
         <th scope="col">Action</th>
 
       </tr>
