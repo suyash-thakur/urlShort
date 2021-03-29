@@ -2,6 +2,7 @@ const express = require("express"),
     router = express.Router();
 const User = require('../models/User');
 const Link = require('../models/Link');
+const Click = require('../models/Click');
 const bcrypt = require('bcryptjs');
 const checkAuth = require('./auth.js');
 const   mongoose = require("mongoose");
@@ -349,6 +350,10 @@ router.get('/:data', (req, res) => {
     Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
     {new: true}, ).then(link => {
         if (link) {
+            var click = new Click({
+                linkId: link._id
+            });
+            click.save();
             res.redirect(link.originalURL);
         }
     })
@@ -359,6 +364,10 @@ router.get('/:data/:data2', (req, res) => {
     Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
     {new: true}, ).then(link => {
         if (link) {
+            var click = new Click({
+                linkId: link._id
+            });
+            click.save();
             res.redirect(link.originalURL);
         }
     })
@@ -369,6 +378,10 @@ router.get('/:data/:data2/:data3', (req, res) => {
     Link.findOneAndUpdate({ shortURL: data }, {$inc : {clicks : 1}}, 
     {new: true}, ).then(link => {
         if (link) {
+            var click = new Click({
+                linkId: link._id
+            });
+            click.save();
             res.redirect(link.originalURL);
         }
     })
