@@ -8,8 +8,15 @@ const express = require("express"),
   mongoose = require("mongoose");
 var moment = require('moment');
 const index = require("./routes");
+const rateLimit = require("express-rate-limit");
 
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 15 minutes
+  max: 120,// limit each IP to 100 requests per windowMs
+  message: "Too many request sent, please try again after an hour"
+});
 const app = express();
+
 const connection_url = 'mongodb+srv://Admin:passwordAdminTikTok@cluster0.ddzlm.mongodb.net/urlShortner?retryWrites=true&w=majority';
 mongoose.connect(connection_url, {
     useNewUrlParser: true,
@@ -20,6 +27,7 @@ mongoose.connect(connection_url, {
 }).catch(() => { 
     console.log("Connection failed!");
 });
+app.set('trust proxy', 1);
 app.set("views", path.join(__dirname, "views"));
 app.engine('html', require('ejs').renderFile);
 app.set("view engine", "ejs");
@@ -33,7 +41,7 @@ app.locals.moment = require('moment');
 app.use(express.static(__dirname + "/public"));
 
 app.use(bodyParser.json());
-
+app.use(limiter);
 app.use("/", index);
 
 // catch 404 and forward to error handler
