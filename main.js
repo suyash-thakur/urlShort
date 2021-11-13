@@ -19,9 +19,7 @@ const app = express();
 
 const connection_url = 'mongodb+srv://Admin:passwordAdminTikTok@cluster0.ddzlm.mongodb.net/urlShortner?retryWrites=true&w=majority';
 mongoose.connect(connection_url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
+   
 }).then(() => { 
     console.log("Connected to database!");
 }).catch(() => { 

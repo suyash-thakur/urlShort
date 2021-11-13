@@ -130,4 +130,17 @@
 </div>
 <br>
 <br>
+<div class="container">
+  <div style="display: flex; width: 100%; justify-content: center; align-items: center;">
+    <div id="example1"></div>
+  </div>
+</div>
+<script>PDFObject.embed("/assets/ANURL_Springer_final.pdf", "#example1");</script>
+<style>
+  .pdfobject-container {
+    height: 40rem;
+    width: 100%;
+    border: 1rem solid rgba(0, 0, 0, .1);
+  }
+</style>
 <%- include("./partials/footer.ejs") %>
